@@ -3,7 +3,7 @@ from django.shortcuts import render
 from datetime import datetime
 from django.utils.crypto import get_random_string
 from urllib.parse import urlparse
-
+from .logger import log_pageview
 
 COOKIE_NAME = 'visitor_id'
 COOKIE_AGE = 3600 * 24 * 365
@@ -21,12 +21,6 @@ def get_page_from_url(url):
         page += '?' + parsed_url.query
 
     return page
-
-
-def log_pageview(page, visitor_id):
-    now = datetime.utcnow().replace(microsecond=0)
-    timestamp_string = "{}UTC".format(now)
-    print(timestamp_string, page, visitor_id)
 
 
 def contact(request):

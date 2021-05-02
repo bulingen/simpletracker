@@ -123,3 +123,28 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
+
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'pageview': {
+            'format': 'PAGEVIEW {message}',
+            'style': '{',
+        },
+    },
+    'handlers': {
+        'tracking': {
+            'level': 'INFO',
+            'class': 'logging.StreamHandler',
+            'formatter': 'pageview'
+        },
+    },
+    'loggers': {
+        'simpletracker.logger': {
+            'handlers': ['tracking'],
+            'level': 'INFO',
+        }
+    }
+}

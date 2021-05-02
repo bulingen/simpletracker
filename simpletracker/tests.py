@@ -2,7 +2,7 @@ from django.test import TestCase
 from unittest import mock
 from django.http.response import HttpResponse, FileResponse
 from django.http.request import HttpRequest
-from .views import track_get_image, log_pageview, COOKIE_NAME
+from .views import track_get_image, COOKIE_NAME
 
 
 def create_request_with_referer():
