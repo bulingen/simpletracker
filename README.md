@@ -29,3 +29,10 @@ In case you want to sign in to the Admin app:
 docker-compose exec app bash
 python manage.py createsuperuser
 ```
+
+### Run tests
+
+```
+docker-compose exec app bash
+python manage.py test  --settings=simpletracker.settings_test
+```
