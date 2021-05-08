@@ -3,7 +3,9 @@ from django.shortcuts import render
 from datetime import datetime
 from django.utils.crypto import get_random_string
 from urllib.parse import urlparse
+from django.utils import timezone, dateparse
 from .logger import log_pageview
+from .models import LogEntry
 
 COOKIE_NAME = 'visitor_id'
 COOKIE_AGE = 3600 * 24 * 365
@@ -47,3 +49,23 @@ def track_get_image(request):
     log_pageview(page, visitor_id)
 
     return response
+
+
+def report(request):
+    from_datetime_string = request.GET.get("from_datetime")
+    to_datetime_string = request.GET.get("to_datetime")
+
+    log_entries = LogEntry.objects.all()
+    if from_datetime_string:
+        from_datetime = dateparse.parse_datetime(from_datetime_string)
+        from_datetime = timezone.make_aware(from_datetime)
+        log_entries = log_entries.filter(created_at__gte=from_datetime)
+
+    if to_datetime_string:
+        to_datetime = dateparse.parse_datetime(to_datetime_string)
+        to_datetime = timezone.make_aware(to_datetime)
+        log_entries = log_entries.filter(created_at__lte=to_datetime)
+
+    context = {"log_entries": log_entries,
+               "from_datetime": from_datetime_string, "to_datetime": to_datetime_string}
+    return render(request, "report.html", context)

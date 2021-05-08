@@ -15,10 +15,11 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from .views import contact, track_get_image
+from .views import contact, track_get_image, report
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('contact', contact),
     path('simpletracker.gif', track_get_image),
+    path('report', report),
 ]

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Report</title>
+    <style>
+      form {
+        display: flex;
+        flex-direction: column;
+        max-width: 300px;
+        margin-bottom: 24px;
+        background-color: #efefef;
+        padding: 8px;
+        border-radius: 4px;
+      }
+
+      form div {
+        display: flex;
+        margin-bottom: 8px;
+      }
+
+      form div label {
+        flex-grow: 1;
+      }
+
+      form a {
+        align-self: flex-end;
+        margin-top: 12px;
+      }
+
+      input[type="submit"] {
+        text-transform: uppercase;
+        font-weight: 600;
+        font-size: 16px;
+        background-color: #6ec658;
+        color: white;
+        padding: 8px;
+      }
+
+      input[type="submit"]:hover {
+        background-color: #7ccf68;  
+      }
+      
+      input[type="submit"]:active {
+        background-color: #61b44c;  
+      }
+      
+      table {
+        text-align: left;
+      }
+
+      th, td {
+        padding: 4px;
+      }
+
+      tbody tr:nth-child(2n) {
+        background-color: #efefef;
+      }
+
+      thead {
+        background-color: #e7ebff;
+        text-transform: uppercase;
+      }
+    </style>
+  </head>
+  <body>
+    <form method="get">
+      <div>
+
+        <label for="from_datetime">From</label>
+        <input name="from_datetime" type="datetime-local" value="{{from_datetime}}">
+      </div>
+      <div>
+
+        <label for="to_datetime">To</label>
+        <input name="to_datetime" type="datetime-local" value="{{to_datetime}}">
+      </div>
+      <input type="submit" value="Search">
+      <a href="/report">Clear filter</a>
+    </form>
+    <table>
+      <thead>
+        <tr>
+          <th>Created at</th>
+          <th>Page</th>
+          <th>Visitor id</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for entry in log_entries %}
+          <tr>
+            <td>{{ entry.created_at|date:'Y-m-d H:i' }}UTC</td>
+            <td>{{ entry.page }}</td>
+            <td>{{ entry.visitor_id }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </body>
+</html>
